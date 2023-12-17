@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('management')->group(function ()
+Route::prefix('contact')->group(function ()
 {
     \App\Routes\Contact\ContactRoute::V1();
 });

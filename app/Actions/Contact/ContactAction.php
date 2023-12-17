@@ -3,10 +3,9 @@
 namespace App\Actions\Contact;
 
 use App\Models\Contact;
-use App\Repositories\Contact\ContactRepoInterface;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Repositories\Contact\ContactRepoInterface;
 
 class ContactAction
 {
@@ -31,9 +30,9 @@ class ContactAction
      *
      * @return LengthAwarePaginator
      */
-    public function contactIndex(): LengthAwarePaginator
+    public function contactIndex($request): LengthAwarePaginator
     {
-        $contacts = $this->contactRepo->index();
+        $contacts = $this->contactRepo->index($request->orderBy, $request->orderDirection, $request->latest, $request->search);
 
         return $contacts;
     }

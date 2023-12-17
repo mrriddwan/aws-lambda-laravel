@@ -8,9 +8,14 @@ use App\Repositories\Contact\ContactRepoInterface;
 
 class ContactRepository implements ContactRepoInterface
 {
-    public function index(): LengthAwarePaginator
+    public function index(?string $orderBy, ?string $orderDirection = 'asc', ?int $latestPerPage, ?string $search = ""): LengthAwarePaginator
     {
-        return Contact::paginate();
+        $perPage = $latestPerPage ?? 20;
+
+        return Contact::orderByWithDirection($orderBy, $orderDirection)
+            ->latestByID($latestPerPage)
+            ->searchGenderEmail($search)
+            ->paginate($perPage);
     }
     public function show(string $contact_id): Contact
     {

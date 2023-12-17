@@ -15,9 +15,9 @@ class ContactController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contacts = ContactAction::access()->contactIndex();
+        $contacts = ContactAction::access()->contactIndex($request);
 
         return $this->success(
             Response::HTTP_ACCEPTED,
