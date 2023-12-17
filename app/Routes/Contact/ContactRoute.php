@@ -15,7 +15,7 @@ class ContactRoute
             Route::get('/{contact_id}/show', 'show');
             Route::post('/store', 'store');
             Route::post('/{contact_id}/update', 'update');
-            Route::delete('/{contact_id}/delete', 'delete');
+            Route::delete('/{contact_id}/delete', 'destroy');
         });
     }
 }
