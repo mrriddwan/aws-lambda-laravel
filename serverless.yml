@@ -11,13 +11,23 @@ provider:
 package:
     # Files and directories to exclude from deployment
     patterns:
-        - '!node_modules/**'
-        - '!public/storage'
-        - '!resources/assets/**'
-        - '!storage/**'
-        - '!tests/**'
+        - "!node_modules/**"
+        - "!public/storage"
+        - "!resources/assets/**"
+        - "!storage/**"
+        - "!tests/**"
 
 functions:
+    hello:
+        handler: handler.hello
+        vpc:
+            securityGroupIds:
+            - sg-0611e66d2220ce9b9
+            - sg-0d02ae309fc80b988
+            subnetIds:
+            - subnet-01f487a363863cf43
+            - subnet-0854f3df02bff07cf
+            - subnet-0dc3594c048033aef
 
     # This function runs the Laravel website/API
     web:
@@ -25,7 +35,7 @@ functions:
         runtime: php-82-fpm
         timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
         events:
-            - httpApi: '*'
+            - httpApi: "*"
 
     # This function lets us run artisan commands in Lambda
     artisan:

@@ -86,6 +86,12 @@
               }
             }
           },
+          "HelloLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/laravel-dev-hello"
+            }
+          },
           "WebLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -173,8 +179,63 @@
                     "lambdaRole"
                   ]
                 ]
-              }
+              },
+              "ManagedPolicyArns": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+                    ]
+                  ]
+                }
+              ]
             }
+          },
+          "HelloLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/laravel/dev/1703058642660-2023-12-20T07:50:42.660Z/laravel.zip"
+              },
+              "Handler": "handler.hello",
+              "Runtime": "nodejs14.x",
+              "FunctionName": "laravel-dev-hello",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "APP_ENV": "production"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "VpcConfig": {
+                "SecurityGroupIds": [
+                  "sg-0611e66d2220ce9b9",
+                  "sg-0d02ae309fc80b988"
+                ],
+                "SubnetIds": [
+                  "subnet-01f487a363863cf43",
+                  "subnet-0854f3df02bff07cf",
+                  "subnet-0dc3594c048033aef"
+                ]
+              }
+            },
+            "DependsOn": [
+              "HelloLogGroup"
+            ]
           },
           "WebLambdaFunction": {
             "Type": "AWS::Lambda::Function",
@@ -183,7 +244,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/laravel/dev/1703035136876-2023-12-20T01:18:56.876Z/laravel.zip"
+                "S3Key": "serverless/laravel/dev/1703058642660-2023-12-20T07:50:42.660Z/laravel.zip"
               },
               "Handler": "public/index.php",
               "Runtime": "provided.al2",
@@ -216,7 +277,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/laravel/dev/1703035136876-2023-12-20T01:18:56.876Z/laravel.zip"
+                "S3Key": "serverless/laravel/dev/1703058642660-2023-12-20T07:50:42.660Z/laravel.zip"
               },
               "Handler": "artisan",
               "Runtime": "provided.al2",
@@ -243,24 +304,34 @@
               "ArtisanLogGroup"
             ]
           },
-          "WebLambdaVersionPVDeojeHYUllHK79Dk9h9nvzUDDp00uetwcOgD8s": {
+          "HelloLambdaVersionZoGVqtVKyLALFUUb8usdwdTm4rYopI3M965PTr1A": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "HelloLambdaFunction"
+              },
+              "CodeSha256": "3dwy6MfbgytkF9SO2uHW9K1lzqQNfzXcsWoBS6MdsG4="
+            }
+          },
+          "WebLambdaVersioneOqKRxZinYC7Vs1QTOvhvbgYfwocBXT37MTOppe8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "WebLambdaFunction"
               },
-              "CodeSha256": "+urMUA/hSHx35FBrQ+5SrjrU8zgrPuOJp7qDsntaXGc="
+              "CodeSha256": "3dwy6MfbgytkF9SO2uHW9K1lzqQNfzXcsWoBS6MdsG4="
             }
           },
-          "ArtisanLambdaVersion4ksGkrowYlVXye1Y7F0CMHar0xeNazWUfeTi2YvwA": {
+          "ArtisanLambdaVersionXfu5csTgtAQbskSbVRfehdSZlU1NW0TdaaY5xZA82Q": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ArtisanLambdaFunction"
               },
-              "CodeSha256": "+urMUA/hSHx35FBrQ+5SrjrU8zgrPuOJp7qDsntaXGc="
+              "CodeSha256": "3dwy6MfbgytkF9SO2uHW9K1lzqQNfzXcsWoBS6MdsG4="
             }
           },
           "HttpApi": {
@@ -365,10 +436,19 @@
               "Name": "sls-laravel-dev-ServerlessDeploymentBucketName"
             }
           },
+          "HelloLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "HelloLambdaVersionZoGVqtVKyLALFUUb8usdwdTm4rYopI3M965PTr1A"
+            },
+            "Export": {
+              "Name": "sls-laravel-dev-HelloLambdaFunctionQualifiedArn"
+            }
+          },
           "WebLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "WebLambdaVersionPVDeojeHYUllHK79Dk9h9nvzUDDp00uetwcOgD8s"
+              "Ref": "WebLambdaVersioneOqKRxZinYC7Vs1QTOvhvbgYfwocBXT37MTOppe8"
             },
             "Export": {
               "Name": "sls-laravel-dev-WebLambdaFunctionQualifiedArn"
@@ -377,7 +457,7 @@
           "ArtisanLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ArtisanLambdaVersion4ksGkrowYlVXye1Y7F0CMHar0xeNazWUfeTi2YvwA"
+              "Ref": "ArtisanLambdaVersionXfu5csTgtAQbskSbVRfehdSZlU1NW0TdaaY5xZA82Q"
             },
             "Export": {
               "Name": "sls-laravel-dev-ArtisanLambdaFunctionQualifiedArn"
@@ -508,6 +588,24 @@
     ],
     "pluginsData": {},
     "functions": {
+      "hello": {
+        "handler": "handler.hello",
+        "vpc": {
+          "securityGroupIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"HelloLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SecurityGroupIds\"]"
+          },
+          "subnetIds": {
+            "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"HelloLambdaFunction\"][\"Properties\"][\"VpcConfig\"][\"SubnetIds\"]"
+          }
+        },
+        "events": [],
+        "name": "laravel-dev-hello",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "nodejs14.x",
+        "versionLogicalId": "HelloLambdaVersionZoGVqtVKyLALFUUb8usdwdTm4rYopI3M965PTr1A"
+      },
       "web": {
         "handler": "public/index.php",
         "runtime": "provided.al2",
@@ -525,7 +623,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "WebLambdaVersionPVDeojeHYUllHK79Dk9h9nvzUDDp00uetwcOgD8s"
+        "versionLogicalId": "WebLambdaVersioneOqKRxZinYC7Vs1QTOvhvbgYfwocBXT37MTOppe8"
       },
       "artisan": {
         "handler": "artisan",
@@ -539,7 +637,7 @@
         "package": {},
         "memory": 1024,
         "vpc": {},
-        "versionLogicalId": "ArtisanLambdaVersion4ksGkrowYlVXye1Y7F0CMHar0xeNazWUfeTi2YvwA"
+        "versionLogicalId": "ArtisanLambdaVersionXfu5csTgtAQbskSbVRfehdSZlU1NW0TdaaY5xZA82Q"
       }
     },
     "configValidationMode": "warn",
@@ -559,7 +657,7 @@
         ],
         "artifactsS3KeyDirname": "serverless/laravel/dev/code-artifacts",
         "artifact": "/Users/amesridd/Code-Experimental/aws-lambda-laravel/.serverless/laravel.zip",
-        "artifactDirectoryName": "serverless/laravel/dev/1703035136876-2023-12-20T01:18:56.876Z"
+        "artifactDirectoryName": "serverless/laravel/dev/1703058642660-2023-12-20T07:50:42.660Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -573,7 +671,7 @@
     "artifact": "/Users/amesridd/Code-Experimental/aws-lambda-laravel/.serverless/laravel.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/laravel/dev/1703035136876-2023-12-20T01:18:56.876Z",
+    "artifactDirectoryName": "serverless/laravel/dev/1703058642660-2023-12-20T07:50:42.660Z",
     "artifact": "laravel.zip"
   }
 }
