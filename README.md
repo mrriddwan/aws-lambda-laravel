@@ -1,66 +1,248 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Contact API Documentation
+This API provides CRUD operations for managing contact information. The API is built using Laravel and is hosted on AWS Lambda with a MySQL database.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Base URL
+The base URL for the API is https://your-api-gateway-url.com.
 
-## About Laravel
+Authentication
+No authentication is required for this API.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Endpoints
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Get All Contacts
+   Request
+   Method: GET
+   Endpoint: /contacts/index
+   Description: Get a list of all contacts alphabetically.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Query Params:
+1 - Order By
+-- accepts 'name','gender','phone_number','email' for order by of list
 
-## Learning Laravel
+2 - Order Direction
+-- default: 'asc', choices 'asc' or 'desc' for ascending or descending
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3 - latest
+-- accepts integer for number of resource page. If provided, list will sort to latest by ID
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4 - search
+-- search Contact for email or gender
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Response
 
-## Laravel Sponsors
+`{
+    "status": "success",
+    "message": "Successfully retrieved all contacts",
+    "meta": {
+        "timestamp": "2023-12-20 01:20:22"
+    },
+    "current_page": 1,
+    "data": [
+        {
+            "id": 1,
+            "name": "Violet Swift",
+            "gender": "Female",
+            "phone_number": "+13035413405",
+            "email": "amina01@yahoo.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 2,
+            "name": "Cameron Gleichner",
+            "gender": "Female",
+            "phone_number": "+1.806.512.3438",
+            "email": "aufderhar.amber@hotmail.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 3,
+            "name": "Reyes Rolfson DVM",
+            "gender": "Male",
+            "phone_number": "559.427.7615",
+            "email": "lang.nikki@hotmail.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 4,
+            "name": "Dr. Naomi Bashirian IV",
+            "gender": "Female",
+            "phone_number": "+1 (220) 541-9699",
+            "email": "denesik.lilliana@roberts.biz",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 5,
+            "name": "Ms. Flo Kris PhD",
+            "gender": "Male",
+            "phone_number": "+1.520.827.2481",
+            "email": "cormier.kobe@hamill.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 6,
+            "name": "Dr. Hazel O'Reilly Jr.",
+            "gender": "Male",
+            "phone_number": "1-435-545-7758",
+            "email": "kenneth.olson@hotmail.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 7,
+            "name": "Rowan Hauck",
+            "gender": "Female",
+            "phone_number": "+1-425-247-7353",
+            "email": "kobe.wiza@yahoo.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 8,
+            "name": "Viviane Brakus",
+            "gender": "Male",
+            "phone_number": "1-947-381-6955",
+            "email": "keebler.felicita@hotmail.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 9,
+            "name": "Dr. Arvilla Emard V",
+            "gender": "Male",
+            "phone_number": "1-754-736-4032",
+            "email": "cturner@gmail.com",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        },
+        {
+            "id": 10,
+            "name": "Damien Shanahan",
+            "gender": "Male",
+            "phone_number": "814-233-3108",
+            "email": "blanda.mayra@weimann.info",
+            "created_at": "2023-12-19T15:16:26.000000Z",
+            "updated_at": "2023-12-19T15:16:26.000000Z"
+        }
+    ],
+    "first_page_url": "http://aws-lambda-laravel.test/api/contact/index?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://aws-lambda-laravel.test/api/contact/index?page=1",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "http://aws-lambda-laravel.test/api/contact/index?page=1",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "next_page_url": null,
+    "path": "http://aws-lambda-laravel.test/api/contact/index",
+    "per_page": 15,
+    "prev_page_url": null,
+    "to": 10,
+    "total": 10
+}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. Create a Contact
+   Request
+   Method: POST
+   Endpoint: /contact/store
+   Description: Create a new contact.
 
-## Contributing
+Request Body FORM DATA
+{
+"name": "New Contact",
+"gender": "Other",
+"phone_number": "+1112233445",
+"email": "new.contact@example.com"
+}
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Response
+{
+    "status": "success",
+    "message": "Successfully store a contact",
+    "meta": {
+    "timestamp": "2023-12-20 01:22:24"
+        },
+    "data": {
+        "name": "Amir",
+        "gender": "Male",
+        "phone_number": "019991992132",
+        "email": "amir@gmail.com",
+        "updated_at": "2023-12-20T01:22:24.000000Z",
+        "created_at": "2023-12-20T01:22:24.000000Z",
+        "id": 11
+    }
+}
 
-## Code of Conduct
+3. Update a Contact
+Request
+Method: PUT
+Endpoint: /contact/:contact_id/update
+Description: Update an existing contact.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Request Body Example
+{
+  "phone_number": "+999888777"
+}
 
-## Security Vulnerabilities
+Response
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+{
+    "status": "success",
+    "message": "Successfully update selected contact",
+    "meta": {
+        "timestamp": "2023-12-20 01:23:17"
+    },
+    "data": {
+        "id": 11,
+        "name": "Amir Ridwan",
+        "gender": "Male",
+        "phone_number": "0123456789",
+        "email": "amir@gmail.my",
+        "created_at": "2023-12-20T01:22:24.000000Z",
+        "updated_at": "2023-12-20T01:23:17.000000Z"
+    }
+}
 
-## License
+Delete a Contact
+Request
+Method: DELETE
+Endpoint: /contacts/:contact_id/delete
+Description: Delete a contact.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Response
+
+{
+    "status": "success",
+    "message": "Successfully deleted selected contact",
+    "meta": {
+        "timestamp": "2023-12-20 01:28:27"
+    },
+    "data": {
+        "id": 9,
+        "name": "Dr. Arvilla Emard V",
+        "gender": "Male",
+        "phone_number": "1-754-736-4032",
+        "email": "cturner@gmail.com",
+        "created_at": "2023-12-19T15:16:26.000000Z",
+        "updated_at": "2023-12-19T15:16:26.000000Z"
+    }
+}
